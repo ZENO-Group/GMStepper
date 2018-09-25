@@ -15,7 +15,12 @@ import UIKit
         didSet {
             value = min(maximumValue, max(minimumValue, value))
 
-            label.text = formattedValue
+            if let formatValue = formattedValue {
+                label.text = formatValue + "%"
+            }
+            else {
+                label.text = formattedValue
+            }
 
             if oldValue != value {
                 sendActions(for: .valueChanged)
@@ -215,7 +220,12 @@ import UIKit
     lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = formattedValue
+        if let formatValue = formattedValue {
+            label.text = formatValue + "%"
+        }
+        else {
+            label.text = formattedValue
+        }
         label.textColor = self.labelTextColor
         label.backgroundColor = self.labelBackgroundColor
         label.font = self.labelFont
@@ -254,7 +264,12 @@ import UIKit
     
     @objc public var items : [String] = [] {
         didSet {
-            label.text = formattedValue
+            if let formatValue = formattedValue {
+                label.text = formatValue + "%"
+            }
+            else {
+                label.text = formattedValue
+            }
         }
     }
 
@@ -303,7 +318,7 @@ import UIKit
 
         setupNumberFormatter()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(GMStepper.reset), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GMStepper.reset), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
     }
     
     func setupNumberFormatter() {
